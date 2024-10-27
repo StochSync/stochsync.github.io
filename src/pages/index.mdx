@@ -40,8 +40,6 @@ export const panoNames = [
   "ours"
 ];
 
-import pano_all from "../assets/website_pano_all/pano_all.png"
-
 export const sphereNames = [
   ["cotton", "A texture of cotton fabric."],
   ["gemstone", "A texture of a gemstone."],
@@ -170,45 +168,45 @@ export const images = [
 
 export const compImages = [
   {
-    src1: import("../assets/website_pano_all/LMAGIC/pano/Quirky_steampunk_workshop_filled_with_gears_and_ga.png"),
-    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Quirky_steampunk_workshop_filled_with_gears_and_ga.png"),
-    caption1: "L-Magic",
-    caption2: "StochSync (Ours)",
-  },
-  {
-    src1: import("../assets/website_pano_all/mvdiffusion/pano/Home_office_with_a_large_desk_and_bookshelves_fill.png"),
-    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Home_office_with_a_large_desk_and_bookshelves_fill.png"),
-    caption1: "MVDiffution",
-    caption2: "StochSync (Ours)",
-  },
-  {
-    src1: import("../assets/website_pano_all/panfusion/pano/Artsy_district_with_galleries_and_street_art_insta.png"),
-    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Artsy_district_with_galleries_and_street_art_insta.png"),
-    caption1: "Panfusion",
-    caption2: "StochSync (Ours)",
-  },
-  {
-    src1: import("../assets/website_pano_all/renoise_sds_x0_tweedie_views_random/Graffiti-covered_alleyway_with_street_art_murals.png"),
-    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Graffiti-covered_alleyway_with_street_art_murals.png"),
+    src1: import("../assets/panorama/sds/baseline.png"),
+    src2: import("../assets/panorama/sds/ours.png"),
     caption1: "SDS",
     caption2: "StochSync (Ours)",
   },
   {
-    src1: import("../assets/website_pano_all/renoise_sdi_x0_tweedie_views_random/Quaint_canal_lined_with_boats_and_cafes.png"),
-    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Quaint_canal_lined_with_boats_and_cafes.png"),
+    src1: import("../assets/panorama/sdi/baseline.png"),
+    src2: import("../assets/panorama/sdi/ours.png"),
     caption1: "SDI",
     caption2: "StochSync (Ours)",
   },
   {
-    src1: import("../assets/website_pano_all/renoise_ism_x0_tweedie_views_distillation/Rocky_desert_landscape_with_towering_saguaro_cacti.png"),
-    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Rocky_desert_landscape_with_towering_saguaro_cacti.png"),
+    src1: import("../assets/panorama/ism/baseline.png"),
+    src2: import("../assets/panorama/ism/ours.png"),
     caption1: "ISM",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/panorama/mvdiffusion/baseline.png"),
+    src2: import("../assets/panorama/mvdiffusion/ours.png"),
+    caption1: "MVDiffution",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/panorama/panfusion/baseline.png"),
+    src2: import("../assets/panorama/panfusion/ours.png"),
+    caption1: "Panfusion",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/panorama/lmagic/baseline.png"),
+    src2: import("../assets/panorama/lmagic/ours.png"),
+    caption1: "L-Magic",
     caption2: "StochSync (Ours)",
   },
 ];
 
 import non_euclidean from "../assets/non_euclidean/non_euclidean.png";
-import panorama_all from "../assets/website_pano_all/pano_all.png";
+import panorama_all from "../assets/panorama/pano_all.png";
 
 <Header
   title={frontmatter.title}
@@ -225,7 +223,7 @@ import panorama_all from "../assets/website_pano_all/pano_all.png";
   links={[
     {
       name: "Paper",
-      url: "",
+      url: "https://openreview.net/pdf?id=XPNprvlxuQ",
       icon: "fa-solid:file-pdf",
     },
     {
@@ -234,7 +232,7 @@ import panorama_all from "../assets/website_pano_all/pano_all.png";
       icon: "mdi:github",
     },
     {
-      name: "arXiv",
+      name: "arXiv (coming soon)",
       url: "",
       icon: "academicons:arxiv",
     },
@@ -268,9 +266,9 @@ We observed that the coherence in SDS comes from using **maximum stochasticity**
 By incorporating maximum stochasticity into the reverse diffusion process of DS, along with other methods to further enhance quality, **we achieve the coherence benefits of SDS while retaining the detailed quality of DS.**
 
 
-## 🌍3D Panorama Generation
+## 🌍360° Panorama Generation
 
-<Image src={pano_all} alt="Comparison of 360° panorama generation using StochSync and the baseline method." />
+<Image src={panorama_all} alt="Comparison of 360° panorama generation using StochSync and the baseline method." />
 
 {compImages.map(({ src1, src2, caption1, caption2 }) => (
   <ImageComparison
