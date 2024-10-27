@@ -1,0 +1,146 @@
+---
+export interface Props {
+  images: {
+    src: any;
+    alt: string;
+  }[];
+  visibleItems: number;  // Number of visible items at a time
+  dotsYOffset: number;  // Offset for the pagination dots (in px or rem)
+}
+
+const { images, visibleItems, dotsYOffset } = Astro.props;
+const uniqueId = Math.random().toString(36).substring(2, 10);  // Generate unique ID for each carousel
+
+import { Image } from "astro:assets";
+---
+
+<section class="carousel" id={`enumcarousel-${uniqueId}`} data-num-items={images.length} data-visible-items={visibleItems}>
+  <div class="carousel-gradient-left"></div>
+  <div class="carousel-gradient-right"></div>
+
+  <div class="carousel-inner">
+    {images.map((image, index) => (
+      <div class="carousel-item" data-index={index} style={`flex: 0 0 calc((100% / ${visibleItems}) - 10px); margin-left: 5px; margin-right: 5px;`}>
+        {/* <img src={image.src} alt={image.alt} /> */}
+        <Image src={image.src} alt={image.alt} />
+      </div>
+    ))}
+  </div>
+
+  <!-- Pagination Dots -->
+  <div class="carousel-dots" style={`bottom: ${dotsYOffset}px;`}>
+    {Array.from({ length: Math.ceil(images.length / visibleItems) }).map((_, index) => (
+      <span class={`carousel-dot ${index === 0 ? 'active' : ''}`} data-index={index}></span>
+    ))}
+  </div>
+</section>
+
+<style>
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  position: relative;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-dots {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  transform: translateY(-50%);
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.7);
+}
+
+.carousel-dot.active {
+  background-color: #fff;
+  width: 10px;
+  height: 10px;
+}
+
+/* Gradient Overlays */
+.carousel-gradient-left,
+.carousel-gradient-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.carousel-gradient-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0px, rgba(255, 255, 255, 1) 5px, rgba(255, 255, 255, 0) 100%);
+}
+
+.carousel-gradient-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1) 0px, rgba(255, 255, 255, 1) 5px, rgba(255, 255, 255, 0) 100%);
+}
+</style>
+
+<script is:inline>
+document.addEventListener('DOMContentLoaded', () => {
+  const carousels = document.querySelectorAll('[id^="enumcarousel-"]');
+
+  carousels.forEach((carousel) => {
+    const numItems = parseInt(carousel.dataset.numItems); // Get total number of items
+    const visibleItems = parseInt(carousel.dataset.visibleItems); // Get number of visible items
+    const carouselInner = carousel.querySelector('.carousel-inner');
+    const dots = carousel.querySelectorAll('.carousel-dot');
+
+    let currentIndex = 0;
+    const totalItems = Math.ceil(numItems / visibleItems);  // Total slides
+
+    // Update the slide position
+    function updateSlide() {
+      const offset = -currentIndex * (100 / visibleItems);
+      carouselInner.style.transform = `translateX(${offset}%)`;
+
+      // Update active dot
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    // Automatically move the carousel every 5 seconds
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % totalItems;
+      updateSlide();
+    }, 5000);
+
+    // Handle dot click events
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        currentIndex = parseInt(dot.dataset.index);
+        updateSlide();
+      });
+    });
+
+    updateSlide();  // Initialize the first slide
+  });
+});
+</script>

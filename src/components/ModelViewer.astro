@@ -1,0 +1,63 @@
+---
+export interface Props {
+  src: string;                  // The URL of the 3D model file (GLB, GLTF)
+  alt: string;                  // Alt text for accessibility
+  environmentImage?: string;    // URL of the environment HDR image (optional)
+  poster?: string;              // URL of the poster image (optional)
+  shadowIntensity?: number;     // Shadow intensity (default is 1)
+  arEnabled?: boolean;          // Enable AR mode (default is false)
+  touchAction?: string;         // Touch action for controls, e.g., "pan-y" (default is "pan-y")
+  autoRotate?: boolean;         // Enable auto-rotation (default is false)
+  fieldOfView?: string;       // Field of view for the camera (default is "auto")
+  cameraOrbit?: string;         // Camera orbit preset (default is "auto")
+  maxCameraOrbit?: string;      // Maximum camera orbit preset (default is "auto")
+  minCameraOrbit?: string;      // Minimum camera orbit preset (default is "auto")
+  disableZoom?: boolean;        // Disable zooming (default is false)
+  disableTap?: boolean;         // Disable tap gesture (default is false)
+  style?: string;               // Custom styles for the model viewer
+}
+
+const {
+  src,
+  alt,
+  environmentImage = '',
+  poster = '',
+  shadowIntensity = 1,
+  arEnabled = false,
+  touchAction = 'pan-y',
+  autoRotate = false,
+  fieldOfView = 'auto',
+  cameraOrbit = 'auto',
+  maxCameraOrbit = 'auto',
+  minCameraOrbit = 'auto',
+  disableZoom = false,
+  disableTap = false,
+  style = ''
+} = Astro.props;
+import { Image } from "astro:assets";
+---
+
+<!-- Import the Model Viewer library -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
+<!-- Model Viewer component -->
+<model-viewer
+  src={src}
+  alt={alt}
+  environment-image={environmentImage}
+  poster={poster}
+  shadow-intensity={shadowIntensity}
+  camera-controls
+  touch-action={touchAction}
+  ar={arEnabled ? "true" : undefined}
+  field-of-view={fieldOfView}
+  auto-rotate={autoRotate ? "true" : undefined}
+  camera-orbit={cameraOrbit}
+  max-camera-orbit={maxCameraOrbit}
+  min-camera-orbit={minCameraOrbit}
+  disable-zoom={disableZoom ? "true" : undefined}
+  disable-tap={disableTap ? "true" : undefined}
+  loading="eager"
+  style={style}
+  >
+</model-viewer>

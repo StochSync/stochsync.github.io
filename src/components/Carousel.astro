@@ -1,0 +1,168 @@
+---
+export interface Image {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
+export interface Props {
+  images: Image[];
+}
+
+const { images } = Astro.props;
+const uniqueId = Math.random().toString(36).substring(2, 10);  // Generate unique ID for each carousel
+---
+
+<section class="carousel" id={`carousel-${uniqueId}`} data-num-items={images.length}>
+  <div class="carousel-inner">
+    {images.map((image, index) => (
+      <div class={`carousel-item ${index === 0 ? 'active' : ''}`} data-index={index}>
+        <img src={image.src} alt={image.alt} />
+        <h3 class="caption">{image.caption}</h3>
+      </div>
+    ))}
+  </div>
+
+  <!-- Pagination Dots -->
+  <div class="carousel-dots">
+    {images.map((_, index) => (
+      <span class={`carousel-dot ${index === 0 ? 'active' : ''}`} data-index={index}></span>
+    ))}
+  </div>
+
+  <button class="carousel-button prev" aria-label="Previous Slide">
+    <!-- Left Chevron SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+    </svg>
+  </button>
+  <button class="carousel-button next" aria-label="Next Slide">
+    <!-- Right Chevron SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+    </svg>
+  </button>
+</section>
+
+<style>
+/* Existing Styles */
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  min-width: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 4px 0px rgba(0, 0, 0, 0.7); /* Faint shadow around the button */
+}
+
+.carousel-button.prev {
+  left: 10px;
+}
+
+.carousel-button.next {
+  right: 10px;
+}
+
+/* Pagination Dots Styles */
+.carousel-dots {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  transform: translateY(-50%);
+  background-color: #e0e0e0; /* Brighter inactive dot color */
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Add transition for smooth resizing */
+  box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.7); /* Faint shadow around the dot */
+}
+
+.carousel-dot.active {
+  background-color: #fff; /* Active dot color */
+  width: 10px; /* Slightly larger */
+  height: 10px; /* Slightly larger */
+}
+
+/* Adjusted Caption Style */
+.caption {
+  font-size: 0.8rem; /* Make the caption much smaller */
+  margin: 0.0rem 0 0; /* Optional: Adjust margins */
+  text-align: center; /* Optional: Center the caption */
+}
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousels = document.querySelectorAll('[id^="carousel-"]');
+  
+    carousels.forEach((carousel) => {
+      const numItems = parseInt(carousel.dataset.numItems); // Get the numItems from data attribute
+      const carouselInner = carousel.querySelector('.carousel-inner');
+      const nextButton = carousel.querySelector('.carousel-button.next');
+      const prevButton = carousel.querySelector('.carousel-button.prev');
+      const dots = carousel.querySelectorAll('.carousel-dot');
+  
+      let currentIndex = 0;
+      const totalItems = numItems;  // Use numItems directly
+      console.log(totalItems, numItems);
+  
+      function updateSlide() {
+        const offset = -currentIndex * 100;
+        carouselInner.style.transform = `translateX(${offset}%)`;
+  
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentIndex);
+        });
+      }
+  
+      nextButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % totalItems;
+        updateSlide();
+      });
+  
+      prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        updateSlide();
+      });
+  
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          currentIndex = parseInt(dot.dataset.index);
+          updateSlide();
+        });
+      });
+    });
+  });
+  </script>

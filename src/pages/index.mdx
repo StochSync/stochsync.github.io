@@ -1,0 +1,372 @@
+---
+layout: ../layouts/Layout.astro
+title: "StochSync: Stochastic Diffusion Synchronization for Image Generation in Arbitrary Spaces"
+description: "Hello world!"
+favicon: /favicon.svg
+thumbnail: /screenshot.png
+title2: ""
+---
+
+import { Image } from "astro:assets";
+
+import Layout from "../layouts/Layout.astro";
+
+import Header from "../components/Header.astro";
+import TwoColumns from "../components/TwoColumns.astro";
+import Video from "../components/Video.astro";
+import YouTubeVideo from "../components/YouTubeVideo.astro";
+import PDF from "../components/PDF.astro";
+import Figure from "../components/Figure.astro";
+import LaTeX from "../components/LaTeX.astro";
+import SmallCaps from "../components/SmallCaps.astro";
+import Splat from "../components/Splat.tsx"
+import Carousel from "../components/Carousel.astro";
+import GeneralCarousel from "../components/GeneralCarousel.astro";
+import EnumCarousel from "../components/EnumCarousel.astro";
+import ModelViewer from "../components/ModelViewer.astro";
+import ImageComparison from "../components/ImageComparison.astro";
+
+import CodeBlock from "../components/CodeBlock.astro";
+export const components = {pre: CodeBlock}
+
+import teaser from "../assets/teaser.png";
+
+export const panoNames = [
+  "art",
+  "bookstore",
+  "cyberpunk",
+  "japan",
+  "livingroom",
+  "ours"
+];
+
+import pano_all from "../assets/website_pano_all/pano_all.png"
+
+export const sphereNames = [
+  ["cotton", "A texture of cotton fabric."],
+  ["gemstone", "A texture of a gemstone."],
+  ["honeycomb", "A texture of a honeycomb."],
+  ["marble_gold", "A texture of gold marble."],
+  ["marble_green", "A texture of green marble."],
+  ["medieval_map", "A texture of a medieval map."],
+  ["minimal_map", "A texture of a minimal map."],
+  ["plush", "A texture of a plush fabric."],
+  ["snack", "A texture of a snack."],
+  ["vegetable", "A texture of a vegetable."]
+];
+
+export const torusNames = [
+  ["cotton", "A texture of cotton fabric."],
+  ["gemstone", "A texture of a gemstone."],
+  ["honeycomb", "A texture of a honeycomb."],
+  ["marble_gold", "A texture of gold marble."],
+  ["marble_green", "A texture of green marble."],
+  ["medieval_map", "A texture of a medieval map."],
+  ["minimal_map", "A texture of a minimal map."],
+  ["plush", "A texture of a plush fabric."],
+  ["snack", "A texture of a snack."],
+  ["vegetable", "A texture of a vegetable."]
+];
+
+export const meshNames = [
+  ["0db114d7753344d6825aa4f21ec56db9_An_acrylic_crate", "An acrylic crate."],
+  ["2fc0fc6ebe564a249c4617e6b3e6da93_A_driftwood_hearth", "A driftwood hearth."],
+  ["4c4690ba918f477b829990dd2e960c21_An_iridescent_lion", "An iridescent lion."],
+  ["62897c52e967469c85df9c6abdd09d16_A_marionette_doll", "A marionette doll."],
+  ["72826cd5c17a42798a8e8e36c05c5035_A_gear_clock", "A gear clock."],
+  ["91c5283b27c74583900d5e26e2fcd086_A_cobalt_ceramic_mug", "A cobalt ceramic mug."],
+  ["9fa2da2c42234b58896e8d23393cac24_A_graffiti_denim_bag", "A graffiti denim bag."],
+  ["a51751c9989940e592eb61be41ee35cc_A_porcelain_owl", "A porcelain owl."],
+  ["f05b0c2f9bcf41cea188a4b4c848068a_A_floral_hydrant", "A floral hydrant."],
+  ["f1aa479977a74a608d362679ed5ca721_A_marble_piano", "A marble piano."]
+];
+
+
+export const sphereGlbNames = [
+  ['sphere-A_fantasy_map,_birds_eye_view,_town,_buildings_facing_different_directions-100', 'Fantasy map, bird`s eye view.'],
+  ['sphere-A_honeycomb_texture_with_hexagonal_cells_filled_with_golden_honey-100', 'Honeycomb texture.'],
+  ['sphere-A_marbled_stone_texture_with_swirling_veins_of_gold_and_deep_green-100', 'Marbled stone texture.'],
+  ['sphere-A_molten_lava_texture_with_bright,_glowing_veins_and_dark_rock_crust-100', 'Molten lava texture.'],
+  ['sphere-A_paint_splatter_texture_with_vibrant_colors_and_drips-100', 'Paint splatter texture.'],
+  ['sphere-A_pile_of_gemstones_in_a_variety_of_colors,_shapes,_and_sizes,_with_a_shiny,_reflective_surface-100', 'Pile of gemstones.'],
+  ['sphere-A_smooth,_polished_marble_surface_with_veins_of_gold_and_white-100', 'Polished marble surface.'],
+  ['sphere-A_snack_texture-100', 'Snack texture.'],
+  ['sphere-A_soft,_fluffy_cotton_texture_with_gentle_folds_and_smooth_surfaces-100', 'Fluffy cotton texture.'],
+  ['sphere-A_soft,_plush_fur_texture_with_varying_lengths_of_hair_and_rich_colors-100', 'Plush fur texture.'],
+  ['sphere-A_vegetables_texture-100', 'Vegetables texture.'],
+  ['sphere-Fantasy_map_in_minimalist_style,_with_clean_lines,_simple_shapes,_and_muted_colors.-100', 'Minimalist fantasy map.'],
+  ['sphere-old_medieval_fantasy_map_with_cities_and_continents-100', 'Medieval fantasy map.']
+];
+
+export const torusGlbNames = [
+  ['torus-A_fantasy_map,_birds_eye_view,_town,_buildings_facing_different_directions-100', 'Fantasy map, bird`s eye view.'],
+  ['torus-A_honeycomb_texture_with_hexagonal_cells_filled_with_golden_honey-100', 'Honeycomb texture.'],
+  ['torus-A_marbled_stone_texture_with_swirling_veins_of_gold_and_deep_green-100', 'Marbled stone texture.'],
+  ['torus-A_molten_lava_texture_with_bright,_glowing_veins_and_dark_rock_crust-100', 'Molten lava texture.'],
+  ['torus-A_paint_splatter_texture_with_vibrant_colors_and_drips-100', 'Paint splatter texture.'],
+  ['torus-A_pile_of_gemstones_in_a_variety_of_colors,_shapes,_and_sizes,_with_a_shiny,_reflective_surface-100', 'Pile of gemstones.'],
+  ['torus-A_smooth,_polished_marble_surface_with_veins_of_gold_and_white-100', 'Polished marble surface.'],
+  ['torus-A_snack_texture-100', 'Snack texture.'],
+  ['torus-A_soft,_fluffy_cotton_texture_with_gentle_folds_and_smooth_surfaces-100', 'Fluffy cotton texture.'],
+  ['torus-A_soft,_plush_fur_texture_with_varying_lengths_of_hair_and_rich_colors-100', 'Plush fur texture.'],
+  ['torus-A_vegetables_texture-100', 'Vegetables texture.'],
+  ['torus-Fantasy_map_in_minimalist_style,_with_clean_lines,_simple_shapes,_and_muted_colors.-100', 'Minimalist fantasy map.'],
+  ['torus-old_medieval_fantasy_map_with_cities_and_continents-100', 'Medieval fantasy map.']
+];
+
+
+export const images = [
+  {
+    src: import('../assets/non_euclidean/sphere/cotton.png'),
+    alt: 'First image alt text',
+    caption: 'First image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/gemstone.png'),
+    alt: 'Second image alt text',
+    caption: 'Second image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/honeycomb.png'),
+    alt: 'Third image alt text',
+    caption: 'Third image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/marble_gold.png'),
+    alt: 'Fourth image alt text',
+    caption: 'Fourth image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/marble_green.png'),
+    alt: 'Fifth image alt text',
+    caption: 'Fifth image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/medieval_map.png'),
+    alt: 'Sixth image alt text',
+    caption: 'Sixth image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/minimal_map.png'),
+    alt: 'Seventh image alt text',
+    caption: 'Seventh image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/plush.png'),
+    alt: 'Eighth image alt text',
+    caption: 'Eighth image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/snack.png'),
+    alt: 'Ninth image alt text',
+    caption: 'Ninth image description.',
+  },
+  {
+    src: import('../assets/non_euclidean/sphere/vegetable.png'),
+    alt: 'Tenth image alt text',
+    caption: 'Tenth image description.',
+  }
+];
+
+export const compImages = [
+  {
+    src1: import("../assets/website_pano_all/LMAGIC/pano/Quirky_steampunk_workshop_filled_with_gears_and_ga.png"),
+    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Quirky_steampunk_workshop_filled_with_gears_and_ga.png"),
+    caption1: "L-Magic",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/website_pano_all/mvdiffusion/pano/Home_office_with_a_large_desk_and_bookshelves_fill.png"),
+    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Home_office_with_a_large_desk_and_bookshelves_fill.png"),
+    caption1: "MVDiffution",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/website_pano_all/panfusion/pano/Artsy_district_with_galleries_and_street_art_insta.png"),
+    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Artsy_district_with_galleries_and_street_art_insta.png"),
+    caption1: "Panfusion",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/website_pano_all/renoise_sds_x0_tweedie_views_random/Graffiti-covered_alleyway_with_street_art_murals.png"),
+    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Graffiti-covered_alleyway_with_street_art_murals.png"),
+    caption1: "SDS",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/website_pano_all/renoise_sdi_x0_tweedie_views_random/Quaint_canal_lined_with_boats_and_cafes.png"),
+    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Quaint_canal_lined_with_boats_and_cafes.png"),
+    caption1: "SDI",
+    caption2: "StochSync (Ours)",
+  },
+  {
+    src1: import("../assets/website_pano_all/renoise_ism_x0_tweedie_views_distillation/Rocky_desert_landscape_with_towering_saguaro_cacti.png"),
+    src2: import("../assets/website_pano_all/renoise_sds_x0_ode_views_alternating/Rocky_desert_landscape_with_towering_saguaro_cacti.png"),
+    caption1: "ISM",
+    caption2: "StochSync (Ours)",
+  },
+];
+
+import non_euclidean from "../assets/non_euclidean/non_euclidean.png";
+import panorama_all from "../assets/website_pano_all/pano_all.png";
+
+<Header
+  title={frontmatter.title}
+  authors={[
+    {
+      name: "Anonymous authors",
+      url: "",
+      institution: "",
+      notes: [],
+    },
+  ]}
+  conference=""
+  notes={[]}
+  links={[
+    {
+      name: "Paper",
+      url: "",
+      icon: "fa-solid:file-pdf",
+    },
+    {
+      name: "Code (coming soon)",
+      url: "",
+      icon: "mdi:github",
+    },
+    {
+      name: "arXiv",
+      url: "",
+      icon: "academicons:arxiv",
+    },
+  ]}
+/>
+
+<Figure caption="Assorted mesh textures and panoramas generated using StochSync, including one in the background (environment map), which is a 360° panorama. StochSync extends the capabilities of image diffusion models trained in square spaces to produce images in arbitrary spaces such as cylinders, spheres, tori, and mesh surfaces.">
+  <Image src={teaser} alt="Assorted images generated by StochSync" />
+</Figure>
+
+---
+
+
+## ✨Abstract
+
+We propose <LaTeX inline formula="\texttt{StochSync}" />, a method for generating images in arbitrary spaces—such as 360° panoramas or textures on 3D surfaces—using a **pretrained image diffusion model**. The main challenge is bridging the gap between the 2D images understood by the diffusion model (instance space <LaTeX inline formula="\mathcal{X}" />) and the target space for image generation (canonical space <LaTeX inline formula="\mathcal{Z}" />). Unlike previous methods that struggle without strong conditioning or lack fine details, <LaTeX inline formula="\texttt{StochSync}" /> combines the strengths of Diffusion Synchronization and Score Distillation Sampling to perform effectively even with weak conditioning. Our experiments show that <LaTeX inline formula="\texttt{StochSync}" /> outperforms prior finetuning-based methods, especially in 360° panorama generation.
+
+---
+
+
+## 💡Overall Idea
+
+Our approach combines the strengths of two existing methods:
+
+**Diffusion Synchronization (DS)**: Excels in producing detailed images but struggles with coherence across views when instance and canonical spaces are not pixel-aligned, often requiring strong guidance like depth maps.
+
+**Score Distillation Sampling (SDS)**: Achieves coherent results, but lacks fine details and high-quality textures.
+
+We observed that the coherence in SDS comes from using **maximum stochasticity** in the denoising process—specifically, setting the noise level <LaTeX inline formula="\sigma_t" /> to its highest value during each reverse diffusion step in DDIM.
+
+By incorporating maximum stochasticity into the reverse diffusion process of DS, along with other methods to further enhance quality, **we achieve the coherence benefits of SDS while retaining the detailed quality of DS.**
+
+
+## 🌍3D Panorama Generation
+
+<Image src={pano_all} alt="Comparison of 360° panorama generation using StochSync and the baseline method." />
+
+{compImages.map(({ src1, src2, caption1, caption2 }) => (
+  <ImageComparison
+    image1={src1}
+    image2={src2}
+    caption1={caption1}
+    caption2={caption2}
+  />
+))}
+
+---
+
+## 🎨3D Mesh Texturing
+
+<GeneralCarousel numItems={meshNames.length} dotsYOffset={30}>
+  {meshNames.map(([src, description], index) => (
+    <div slot={`item-${index}`}>
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+          <ModelViewer 
+            src={`/mesh_glb/${src}.glb`}
+            alt={description}
+            environmentImage=""
+            poster=""
+            shadowIntensity={1}
+            arEnabled={false}
+            touchAction="pan-y"
+            disableTap={true}
+            style={{width: '400px', height: '400px'}}
+          />
+        </div>
+        <h3 class="caption" style="font-size: 0.8rem; margin: 0.0rem 0 0; text-align: center;">{description}</h3>
+      </div>
+  ))}
+</GeneralCarousel>
+
+---
+
+## 🌀Non-Euclidean Image Generation
+
+<EnumCarousel images={images} visibleItems={3} dotsYOffset={10} />
+
+<div style="height: 20px;"></div>
+
+<TwoColumns>
+  <div slot="left" style="display: flex; flex-direction: column; align-items: center;">
+    ### ⚽Sphere
+    <GeneralCarousel numItems={meshNames.length} dotsYOffset={30}>
+      {sphereGlbNames.map(([src, description], index) => (
+        <div slot={`item-${index}`}>
+            <div style={{ display: 'flex', justifyContent: 'center'}}>
+              <ModelViewer 
+                src={`/noneuclidean_glb/${src}.glb`}
+                alt={description}
+                environmentImage=""
+                poster=""
+                shadowIntensity={1}
+                arEnabled={false}
+                touchAction="pan-y"
+                autoRotate={true}
+                cameraOrbit={"auto auto 170%"}
+                minCameraOrbit={"auto auto 50%"}
+                maxCameraOrbit={"auto auto 170%"}
+                disableTap={true}
+                style={{width: '400px', height: '400px'}}
+              />
+            </div>
+            <h3 class="caption" style="font-size: 0.8rem; margin: 0.0rem 0 0; text-align: center;">{description}</h3>
+          </div>
+      ))}
+    </GeneralCarousel>
+  </div>
+  <div slot="right" style="display: flex; flex-direction: column; align-items: center;">
+    ### 🍩Torus
+    <GeneralCarousel numItems={meshNames.length} dotsYOffset={30}>
+      {torusGlbNames.map(([src, description], index) => (
+        <div slot={`item-${index}`}>
+            <div style={{ display: 'flex', justifyContent: 'center'}}>
+              <ModelViewer 
+                src={`/noneuclidean_glb/${src}.glb`}
+                alt={description}
+                environmentImage=""
+                poster=""
+                shadowIntensity={1}
+                arEnabled={false}
+                touchAction="pan-y"
+                autoRotate={true}
+                cameraOrbit={"auto auto 150%"}
+                minCameraOrbit={"auto auto 50%"}
+                maxCameraOrbit={"auto auto 150%"}
+                disableTap={true}
+                style={{width: '400px', height: '400px'}}
+              />
+            </div>
+            <h3 class="caption" style="font-size: 0.8rem; margin: 0.0rem 0 0; text-align: center;">{description}</h3>
+          </div>
+      ))}
+    </GeneralCarousel>
+  </div>
+</TwoColumns>
