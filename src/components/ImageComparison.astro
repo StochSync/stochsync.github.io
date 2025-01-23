@@ -63,10 +63,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 초기 상태 설정
-    const rect = container.getBoundingClientRect();
-    const initialX = rect.width / 2;
-    overlayWrapper.style.clipPath = `inset(0px ${rect.width - initialX}px 0px 0px)`;
-    divider.style.left = `50%`;
+    function initializeComparison() {
+      const rect = container.getBoundingClientRect();
+      if (rect.width === 0) {
+        setTimeout(initializeComparison, 500);
+      } else {
+        const initialX = rect.width / 2;
+        overlayWrapper.style.clipPath = `inset(0px ${rect.width - initialX}px 0px 0px)`;
+        divider.style.left = `50%`;
+      }
+    }
+
+    initializeComparison();
 
     // 마우스 움직임 이벤트 리스너 추가
     container.addEventListener('mousemove', updateComparison);
